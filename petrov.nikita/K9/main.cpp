@@ -33,11 +33,10 @@ void clearTriTree(TriTree< T, Cmp > * root)
   if (root)
   {
     clearTriTree(root->left);
-    auto todelete = root;
     clearTriTree(root->middle);
     clearTriTree(root->right);
-    delete todelete;
   }
+  delete root;
 }
 
 template< class T, class Cmp >
@@ -134,6 +133,7 @@ int main()
   }
   TriTree< int, std::less< int > > * root = convert(pairs_array, pairs_number, std::less< int >());
   outputTriTreeOfPairs(std::cout, root);
-  delete pairs_array;
+  clearTriTree(root);
+  delete[] pairs_array;
   std::cout << "\n";
 }
