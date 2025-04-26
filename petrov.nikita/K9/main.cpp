@@ -1,14 +1,14 @@
 #include <iostream>
 
 template< class T, class Cmp >
-struct TriTree 
+struct TriTree
 {
   std::pair< T, T > data;
   TriTree< T, Cmp > * left, * middle, * right, * parent;
 };
 
 template< class T, class Cmp >
-struct TriTreeIterator 
+struct TriTreeIterator
 {
 public:
   using this_t = TriTreeIterator< T, Cmp >;
@@ -236,12 +236,12 @@ int main()
     {
       for (auto it = begin(root); it.hasNext(); it = it.next())
       {
-        if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) || 
+        if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
             (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
         {
           count++;
         }
-        else if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) || 
+        else if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
                  (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
         {
           count++;
@@ -249,7 +249,7 @@ int main()
         }
         if (it.next() == last_it)
         {
-          if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) || 
+          if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
               (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
           {
             count++;
@@ -267,7 +267,7 @@ int main()
         {
           count++;
         }
-        else if (it.data().first >= begin_of_segment && it.data().first <= end_of_segment && 
+        else if (it.data().first >= begin_of_segment && it.data().first <= end_of_segment &&
                  it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)
         {
           count++;
@@ -288,12 +288,12 @@ int main()
     {
       for (auto it = begin(root); it.hasNext(); it = it.next())
       {
-        if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) || 
+        if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
              (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
         {
           count++;
         }
-        else if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) || 
+        else if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
                   (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
         {
           count++;
@@ -301,7 +301,7 @@ int main()
         }
         if (it.next() == last_it)
         {
-          if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) || 
+          if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
                (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
           {
             count++;
