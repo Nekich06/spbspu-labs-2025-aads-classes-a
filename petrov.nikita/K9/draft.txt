@@ -1,0 +1,8 @@
+for (auto it = begin(root); it.hasNext(); it = it.next())
+{
+  std::cout << it.data().first << " " << it.data().second << " ";
+  if (it.next() == last_it)
+  {
+    std::cout << it.next().data().first << " " << it.next().data().second << " ";
+  }
+}

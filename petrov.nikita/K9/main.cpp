@@ -169,6 +169,10 @@ TriTree< T, Cmp > * convert(std::pair< T, T > * array, size_t size, Cmp cmp)
       {
         temp->right = new TriTree< T, Cmp >{ array[i], nullptr, nullptr, nullptr, temp };
       }
+      else
+      {
+        continue;
+      }
     }
   }
   catch(const std::bad_alloc & e)
@@ -200,6 +204,10 @@ int main()
     std::cerr << "\n";
     return 1;
   }
+  else if (!pairs_number)
+  {
+    return 0;
+  }
   std::pair< int, int > * pairs_array = new std::pair< int, int >[pairs_number];
   int first_number = 0;
   int second_number = 0;
@@ -217,7 +225,15 @@ int main()
       pairs_array[i++] = { first_number, second_number };
     }
   }
+  if (!std::cin)
+  {
+    delete[] pairs_array;
+    std::cerr << "ERROR: Invalid argument";
+    std::cerr << "\n";
+    return 1;
+  }
   TriTree< int, std::less< int > > * root = convert(pairs_array, pairs_number, std::less< int >());
+  outputTriTreeOfPairs(std::cout, root) << '\n';
   std::string command_name;
   int begin_of_segment = 0;
   int end_of_segment = 0;
@@ -227,88 +243,130 @@ int main()
     std::cin >> command_name;
     std::cin >> begin_of_segment;
     std::cin >> end_of_segment;
-    size_t count = 0;
     if (std::cin.eof())
     {
       continue;
     }
-    else if (command_name == "intersects")
+    else if (!std::cin || begin_of_segment > end_of_segment)
     {
-      for (auto it = begin(root); it.hasNext(); it = it.next())
+      std::cin.clear();
+      std::cin.ignore(1024, '\n');
+      std::cout << "<INVALID COMMAND>";
+      std::cout << "\n";
+      continue;
+    }
+    size_t count = 0;
+    if (pairs_number > 1)
+    {
+      if (command_name == "intersects")
       {
-        if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
-            (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
-        {
-          count++;
-        }
-        else if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
-                 (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
-        {
-          count++;
-          break;
-        }
-        if (it.next() == last_it)
+        for (auto it = begin(root); it.hasNext(); it = it.next())
         {
           if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
               (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
           {
             count++;
           }
+          if (it.next() == last_it)
+          {
+            if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
+                (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
+            {
+              count++;
+            }
+          }
         }
+        std::cout << count << "\n";
       }
-      std::cout << count << "\n";
-    }
-    else if (command_name == "covers")
-    {
-      for (auto it = begin(root); it.hasNext(); it = it.next())
+      else if (command_name == "covers")
       {
-        if (it.data().first >= begin_of_segment && it.data().first <= end_of_segment &&
-            it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)
-        {
-          count++;
-        }
-        else if (it.data().first >= begin_of_segment && it.data().first <= end_of_segment &&
-                 it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)
-        {
-          count++;
-          break;
-        }
-        if (it.next() == last_it)
+        for (auto it = begin(root); it.hasNext(); it = it.next())
         {
           if (it.data().first >= begin_of_segment && it.data().first <= end_of_segment &&
               it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)
           {
             count++;
           }
+          if (it.next() == last_it)
+          {
+            if (it.data().first >= begin_of_segment && it.data().first <= end_of_segment &&
+                it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)
+            {
+              count++;
+            }
+          }
         }
+        std::cout << count << "\n";
       }
-      std::cout << count << "\n";
-    }
-    else if (command_name == "avoids")
-    {
-      for (auto it = begin(root); it.hasNext(); it = it.next())
+      else if (command_name == "avoids")
       {
-        if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
-             (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
-        {
-          count++;
-        }
-        else if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
-                  (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
-        {
-          count++;
-          break;
-        }
-        if (it.next() == last_it)
+        for (auto it = begin(root); it.hasNext(); it = it.next())
         {
           if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
-               (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
+              (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
           {
             count++;
           }
+          if (it.next() == last_it)
+          {
+            if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
+                (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
+            {
+              count++;
+            }
+          }
         }
+        std::cout << count << "\n";
       }
-      std::cout << count << "\n";
+      else
+      {
+        std::cerr << "ERROR: Invalid command";
+        std::cerr << "\n";
+        clearTriTree(root);
+        delete[] pairs_array;
+        return 2;
+      }
+    }
+    else
+    {
+      if (command_name == "intersects")
+      {
+        auto it = begin(root);
+        if ((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
+            (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment))
+        {
+          count++;
+        }
+        std::cout << count << "\n";
+      }
+      else if (command_name == "covers")
+      {
+        auto it = begin(root);
+        if (it.data().first >= begin_of_segment && it.data().first <= end_of_segment &&
+            it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)
+        {
+          count++;
+        }
+        std::cout << count << "\n";
+      }
+      else if (command_name == "avoids")
+      {
+        auto it = begin(root);
+        if (!((it.data().first >= begin_of_segment && it.data().first <= end_of_segment) ||
+            (it.data().second >= begin_of_segment &&  it.data().second <= end_of_segment)))
+        {
+          count++;
+        }
+        std::cout << count << "\n";
+      }
+      else
+      {
+        std::cerr << "ERROR: Invalid command";
+        std::cerr << "\n";
+        clearTriTree(root);
+        delete[] pairs_array;
+        return 2;
+      }
     }
   }
   clearTriTree(root);
