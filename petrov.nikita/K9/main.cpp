@@ -247,6 +247,14 @@ int main()
     {
       continue;
     }
+    else if (command_name != "intersects" && command_name != "covers" && command_name != "avoids")
+    {
+      std::cerr << "ERROR: Invalid command";
+      std::cerr << "\n";
+      clearTriTree(root);
+      delete[] pairs_array;
+      return 2;
+    }
     else if (!std::cin || begin_of_segment > end_of_segment)
     {
       std::cin.clear();
@@ -318,14 +326,6 @@ int main()
         }
         std::cout << count << "\n";
       }
-      else
-      {
-        std::cerr << "ERROR: Invalid command";
-        std::cerr << "\n";
-        clearTriTree(root);
-        delete[] pairs_array;
-        return 2;
-      }
     }
     else
     {
@@ -358,14 +358,6 @@ int main()
           count++;
         }
         std::cout << count << "\n";
-      }
-      else
-      {
-        std::cerr << "ERROR: Invalid command";
-        std::cerr << "\n";
-        clearTriTree(root);
-        delete[] pairs_array;
-        return 2;
       }
     }
   }
