@@ -126,7 +126,7 @@ void clearTriTree(TriTree< T, Cmp > * root)
 }
 
 template< class T, class Cmp >
-TriTree< T, Cmp > * convert(std::pair< T, T > * array, size_t size, Cmp cmp)
+TriTree< T, Cmp > * convert(std::pair< T, T > * array, size_t & size, Cmp cmp)
 {
   if (!array)
   {
@@ -154,6 +154,7 @@ TriTree< T, Cmp > * convert(std::pair< T, T > * array, size_t size, Cmp cmp)
         }
         else
         {
+          size--;
           break;
         }
       }
@@ -233,7 +234,6 @@ int main()
     return 1;
   }
   TriTree< int, std::less< int > > * root = convert(pairs_array, pairs_number, std::less< int >());
-  outputTriTreeOfPairs(std::cout, root) << '\n';
   std::string command_name;
   int begin_of_segment = 0;
   int end_of_segment = 0;
