@@ -154,7 +154,6 @@ TriTree< T, Cmp > * convert(std::pair< T, T > * array, size_t & size, Cmp cmp)
         }
         else
         {
-          size--;
           break;
         }
       }
@@ -172,6 +171,7 @@ TriTree< T, Cmp > * convert(std::pair< T, T > * array, size_t & size, Cmp cmp)
       }
       else
       {
+        size--;
         continue;
       }
     }
